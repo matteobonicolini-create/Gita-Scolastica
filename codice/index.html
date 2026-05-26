@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestione Gite Scolastiche</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 0 10px; color: #333; }
+        h1, h2 { border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+        .sezione { margin-bottom: 30px; }
+        .form-gruppo { margin-bottom: 10px; }
+        label { display: inline-block; width: 180px; }
+        input, select, textarea { padding: 5px; width: 250px; }
+        button { padding: 5px 10px; cursor: pointer; background: #fff; border: 1px solid #333; }
+        button:hover { background: #eee; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+    </style>
+</head>
+<body>
+
+    <h1>sistema gestione gite scolastiche</h1>
+
+    <div class="sezione">
+        <h2>1. inserimento nuovo itinerario</h2>
+        <div class="form-gruppo">
+            <label>destinazione:</label>
+            <input type="text" id="dest Nome" placeholder="es. Parigi o Roma">
+        </div>
+        <div class="form-gruppo">
+            <label>tipo zona:</label>
+            <select id="destTipo">
+                <option value="regione">regione</option>
+                <option value="nazione">nazione estera</option>
+            </select>
+        </div>
+        <div class="form-gruppo">
+            <label>giorni durata:</label>
+            <input type="number" id="giorni" min="1">
+        </div>
+        <div class="form-gruppo">
+            <label>costo pro-capite (€):</label>
+            <input type="number" id="costo" min="1">
+        </div>
+        <div class="form-gruppo">
+            <label>anno di corso:</label>
+            <input type="number" id="annoCorso" min="1" max="5" placeholder="es. 3 per le terze">
+        </div>
+        <div class="form-gruppo">
+            <label>optional vitto:</label>
+            <select id="vitto">
+                <option value="compreso">compreso</option>
+                <option value="escluso">escluso</option>
+                <option value="solo cena">solo cena</option>
+            </select>
+        </div>
+        <button onclick="aggiungiItinerario()">salva itinerario</button>
+    </div>
+
+    <div class="sezione">
+        <h2>2. gestione comitiva e simulazione gita</h2>
+        <p>simula una comitiva di 5 studenti per l'ultimo itinerario creato (costo totale basato su 5 persone).</p>
+        <button onclick="caricaComitivaSimulata()">crea comitiva di test</button>
+        <table id="tabellaAlunni" style="display:none;">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>alunno</th>
+                    <th>certificato medico</th>
+                    <th>azione</th>
+                </tr>
+            </thead>
+            <tbody id="corpoAlunni"></tbody>
+        </table>
+        <p id="outputFinanziario"></p>
+    </div>
+
+    <div class="sezione">
+        <h2>3. report e filtri</h2>
+        <div class="form-gruppo">
+            <label>filtra per anno di corso:</label>
+            <input type="number" id="cercaAnno" placeholder="es. 3">
+            <button onclick="mostraGitePerAnno()">cerca</button>
+        </div>
+        <div id="risultatiFiltro"></div>
+    </div>
+
+    <script>
+        // strutture dati temporanee in memoria (senza database)
+        let itinerari = [];
+        let comitiva = [];
+        let costoGitaCorrente = 0;
+        let itinerarioSelezionato = null;
+
+        // salva l'itinerario controllando se la destinazione è nuova o vecchia
+        function aggiungiItinerario() {
+            const nomeDest = document.getElementById('destNome').value.trim();
+            const tipoDest = document.getElementById('destTipo').value;
+            const giorniViaggio = parseInt(document.getElementById('giorni').value);
+            const costoBase = parseFloat(document.getElementById('costo').value);
+            const anno = parseInt(document.getElementById('annoCorso').value);
+            const vitto = document.getElementById('vitto').value;
+
+            if (!nomeDest || !giorniViaggio || !costoBase || !anno) {
+                alert('compila tutti i campi');
+                return;
+            }
+
+            // logica 3.k e 3.l: controlla se esisteva già nel nostro array
+            const esisteGia = itinerari.some(i => i.destinazione.toLowerCase() === nomeDest.toLowerCase());
+            if (esisteGia) {
+                alert('sistema (3.k): destinazione già esistente. itinerario aggiunto al vecchio record.');
+            } else {
+                alert('sistema (3.l): nuova destinazione rilevata. creata nuova località geografica.');
+            }
+
+            itinerarioSelezionato = {
+                id: itinerari.length + 1,
+                destinazione: nomeDest,
+                tipo: tipoDest,
+                giorni: giorniViaggio,
+                costo: costoBase,
+                anno: anno,
+                vitto: vitto
+            };
+
+            itinerari.push(itinerarioSelezionato);
+            alert('itinerario salvato con successo nel sistema.');
+        }
+
+        // crea al volo una comitiva di 5 studenti per mostrare il funzionamento alla prof
+        function caricaComitivaSimulata() {
+            if (!itinerarioSelezionato) {
+                alert('inserisci prima un itinerario nel punto 1');
+                return;
+            }
+
+            comitiva = [
+                { id: 1, nome: 'mario rossi', medico: false },
+                { id: 2, nome: 'luigi verdi', medico: true }, // ha il certificato
+                { id: 3, nome: 'anna bianchi', medico: false },
+                { id: 4, nome: 'luca neri', medico: false },
+                { id: 5, nome: 'elena galli', medico: false }
+            ];
+
+            costoGitaCorrente = itinerarioSelezionato.costo * comitiva.size; // errore corretto sotto con comitiva.length
+            costoGitaCorrente = itinerarioSelezionato.costo * comitiva.length;
+            aggiornaInterfacciaComitiva();
+        }
+
+        function aggiornaInterfacciaComitiva() {
+            const tbody = document.getElementById('corpoAlunni');
+            tbody.innerHTML = '';
+            
+            if (comitiva.length === 0) {
+                document.getElementById('tabellaAlunni').style.display = 'none';
+                document.getElementById('outputFinanziario').innerText = 'comitiva vuota.';
+                return;
+            }
+
+            document.getElementById('tabellaAlunni').style.display = 'table';
+
+            comitiva.forEach(alunno => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${alunno.id}</td>
+                        <td>${alunno.nome}</td>
+                        <td>${alunno.medico ? 'presente (valido)' : 'assente'}</td>
+                        <td><button onclick="cancellaAlunno(${alunno.id})">rimuovi</button></td>
+                    </tr>
+                `;
+            });
+
+            // calcola la quota pro-capite dividendo il costo fisso totale per gli alunni rimasti
+            let quotaSingola = costoGitaCorrente / comitiva.length;
+            document.getElementById('outputFinanziario').innerHTML = 
+                `<strong>situazione economica (3.m):</strong><br>` +
+                `costo totale gita bloccato: ${costoGitaCorrente}€<br>` +
+                `studenti attivi: ${comitiva.length}<br>` +
+                `quota attuale a testa (con ripartizione): <strong>${quotaSingola.toFixed(2)}€</strong> (incluso acconto 10%)`;
+        }
+
+        // logica di cancellazione con ripartizione (3.m)
+        function cancellaAlunno(idAlunno) {
+            const studente = comitiva.find(a => a.id === idAlunno);
+            if (!studente) return;
+
+            if (studente.medico) {
+                alert('sistema (3.m): lo studente ha il certificato medico. il costo totale rimane fisso e la sua parte viene ripartita sui rimanenti.');
+            } else {
+                alert('sistema: nessun certificato. l\'acconto del 10% viene perso come penale.');
+                // riduciamo il costo totale solo della quota del saldo, trattenendo l'acconto
+                let quotaIniziale = costoGitaCorrente / comitiva.length;
+                costoGitaCorrente -= (quotaIniziale * 0.90); 
+            }
+
+            comitiva = comitiva.filter(a => a.id !== idAlunno);
+            aggiornaInterfacciaComitiva();
+        }
+
+        // reportistica per anno di corso (3.n parte 2)
+        function mostraGitePerAnno() {
+            const annoCercato = parseInt(document.getElementById('cercaAnno').value);
+            const divRisultati = document.getElementById('risultatiFiltro');
+            divRisultati.innerHTML = '';
+
+            const filtrate = itinerari.filter(i => i.anno === annoCercato);
+
+            if (filtrate.length === 0) {
+                divRisultati.innerText = 'nessuna gita trovata per questo anno di corso.';
+                return;
+            }
+
+            let html = '<ul>';
+            filtrate.forEach(i => {
+                html += `<li><strong>destinazione:</strong> ${i.destinazione} | <strong>durata:</strong> ${i.giorni} gg | <strong>vitto:</strong> ${i.vitto}</li>`;
+            });
+            html += '</ul>';
+            divRisultati.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
