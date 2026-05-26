@@ -1,0 +1,37 @@
+[
+    {
+        "id": "pren_6a15f968d561c",
+        "id_itinerario": "itin_6a15f6f7d0c08",
+        "classi": [
+            "cls_6a15f7bc36749",
+            "cls_6a15f7ca8f575"
+        ],
+        "num_partecipanti": 35,
+        "costo_unitario": 120,
+        "costo_totale": 4200,
+        "acconto": 420,
+        "saldo": 3780,
+        "stato": "confermata",
+        "data_prenotazione": "2026-05-26",
+        "autorizzazioni_raccolte": false,
+        "alunni_rinuncianti": [],
+        "note": ""
+    },
+    {
+        "id": "pren_6a15f9964260c",
+        "id_itinerario": "itin_6a15f91d39ba5",
+        "classi": [
+            "cls_6a15f7d6889ad"
+        ],
+        "num_partecipanti": 57,
+        "costo_unitario": 400,
+        "costo_totale": 22800,
+        "acconto": 2280,
+        "saldo": 20520,
+        "stato": "confermata",
+        "data_prenotazione": "2026-05-26",
+        "autorizzazioni_raccolte": false,
+        "alunni_rinuncianti": [],
+        "note": ""
+    }
+]

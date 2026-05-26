@@ -1,0 +1,26 @@
+[
+    {
+        "id": "cls_6a15f7af004d8",
+        "nome": "3A ITIS",
+        "anno_corso": 3,
+        "sezione": "A"
+    },
+    {
+        "id": "cls_6a15f7bc36749",
+        "nome": "4A ITIS",
+        "anno_corso": 4,
+        "sezione": "A"
+    },
+    {
+        "id": "cls_6a15f7ca8f575",
+        "nome": "4B ITIS",
+        "anno_corso": 4,
+        "sezione": "B"
+    },
+    {
+        "id": "cls_6a15f7d6889ad",
+        "nome": "5A ITIS",
+        "anno_corso": 5,
+        "sezione": "A"
+    }
+]

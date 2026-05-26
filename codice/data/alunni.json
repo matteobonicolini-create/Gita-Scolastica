@@ -1,0 +1,66 @@
+[
+    {
+        "id": "alunno_6a15f80376ded",
+        "cognome": "Hajny",
+        "nome": "Alessandro",
+        "id_classe": "cls_6a15f7af004d8",
+        "data_nascita": "",
+        "email_genitore": "esempio@gmail.com"
+    },
+    {
+        "id": "alunno_6a15f829c7615",
+        "cognome": "luca",
+        "nome": "rossi",
+        "id_classe": "cls_6a15f7af004d8",
+        "data_nascita": "11111-11-11",
+        "email_genitore": "esempio@gmail.com"
+    },
+    {
+        "id": "alunno_6a15f84920dad",
+        "cognome": "martino",
+        "nome": "paoloni",
+        "id_classe": "cls_6a15f7bc36749",
+        "data_nascita": "2222-02-22",
+        "email_genitore": "esempio@gmail.com"
+    },
+    {
+        "id": "alunno_6a15f85fa6340",
+        "cognome": "mario",
+        "nome": "bianchi",
+        "id_classe": "cls_6a15f7bc36749",
+        "data_nascita": "3333-03-31",
+        "email_genitore": "esempio@gmail.com"
+    },
+    {
+        "id": "alunno_6a15f878f25f5",
+        "cognome": "bonicolini",
+        "nome": "matteo",
+        "id_classe": "cls_6a15f7ca8f575",
+        "data_nascita": "4444-04-04",
+        "email_genitore": "esempio@gmail.com"
+    },
+    {
+        "id": "alunno_6a15f8884e606",
+        "cognome": "sara",
+        "nome": "rossi",
+        "id_classe": "cls_6a15f7ca8f575",
+        "data_nascita": "11111-11-11",
+        "email_genitore": "esempio@gmail.com"
+    },
+    {
+        "id": "alunno_6a15f8a93b542",
+        "cognome": "daniele",
+        "nome": "callegari",
+        "id_classe": "cls_6a15f7d6889ad",
+        "data_nascita": "6666-06-06",
+        "email_genitore": "esempio@gmail.com"
+    },
+    {
+        "id": "alunno_6a15f8c349ca5",
+        "cognome": "matteo",
+        "nome": "fumagalli",
+        "id_classe": "cls_6a15f7d6889ad",
+        "data_nascita": "7777-07-07",
+        "email_genitore": "esempio@gmail.com"
+    }
+]
