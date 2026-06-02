@@ -57,7 +57,7 @@ $annulla_id = $_GET['annulla'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="it">
-<head><meta charset="UTF-8"><title>Prenotazioni</title></head>
+<head><title>Prenotazioni</title></head>
 <body>
 <a href="index.php">← Home</a>
 <h1>Lista Prenotazioni</h1>
