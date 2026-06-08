@@ -4,7 +4,8 @@ require_once 'includes/functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $azione = $_POST['azione'] ?? '';
-
+//prova commento
+    
     if ($azione === 'aggiungi') {
         $nome = trim($_POST['nome'] ?? '');
         $anno = intval($_POST['anno_corso'] ?? 1);
